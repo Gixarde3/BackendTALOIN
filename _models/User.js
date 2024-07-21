@@ -20,6 +20,11 @@ class User {
         const user = await db.query('INSERT INTO User SET ?', data);
         return {id: user.insertId, ...data};
     }
+
+    static findByEmail(email) {
+        return db.query('SELECT * FROM User WHERE email = ?', [email])
+            .then(results => results[0]);
+    }
 }
 
 module.exports = User;

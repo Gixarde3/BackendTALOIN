@@ -1,9 +1,13 @@
 const express = require('express');
 const routes = require('./_routes');
 const cors = require('cors');
-
+const path = require('path');
+var multipart = require('connect-multiparty');
 const app = express();
 // Set up middleware
+
+var multipartMiddleware = multipart({uploadDir: path.join(__dirname, 'photos')});
+app.use(multipartMiddleware);
 app.use(express.json());
 
 app.use(cors())
