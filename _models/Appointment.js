@@ -39,6 +39,19 @@ class Appointment {
                         INNER JOIN Request ON Request.id = Quote.request_id
                         WHERE Request.user_id = ?`, [id]);
     }
+
+    static getMoney(id) {
+        return db.query(`SELECT * FROM Appointment 
+                        INNER JOIN Quote ON Quote.id = Appointment.quote_id 
+                        WHERE Appointment.id = ?`, [id]);
+    }
+
+    static getWorkerId(id) {
+        return db.query(`SELECT * FROM Appointment 
+                        INNER JOIN Quote ON Quote.id = Appointment.quote_id 
+                        INNER JOIN Request ON Request.id = Quote.request_id
+                        WHERE Appointment.id = ?`, [id]);
+    }
 }
 
 module.exports = Appointment;

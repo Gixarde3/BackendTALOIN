@@ -24,6 +24,12 @@ class Worker {
         return db.query('SELECT * FROM Worker WHERE email = ?', [email])
             .then(results => results[0]);
     }
+
+    static addMoney(id, amount) {
+        console.log(amount);
+        return db.query('UPDATE Worker SET money = money + ? WHERE id = ?', [amount, id])
+            .then(result => ({ id, money: amount }));
+    }
 }
 
 module.exports = Worker;

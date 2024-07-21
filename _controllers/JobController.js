@@ -43,7 +43,15 @@ class JobController {
             }
             const item = await models.Job.create(req.body);
             const photosResult = await models.Job.addPhotos(item.id, photos);
-            res.send(item);
+
+            let workerId = await models.Appointment.getWorkerId(req.body.appointment_id);
+            let money = await models.Appointment.getMoney(req.body.appointment_id);
+
+            workerId = workerId[0].worker_id;
+            money = money[0].initial_quote;
+
+            const resultWorkers = await models.Worker.addMoney(workerId, money);
+            res.send({item, resultWorkers});
         } catch (error) {
             res.status(500).send({ error: error.message });
         }
