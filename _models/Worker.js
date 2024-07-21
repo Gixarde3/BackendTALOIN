@@ -16,8 +16,12 @@ class Worker {
             .then(result => ({ id: result.insertId, ...data }));
     }
 
-    static findByServiceId(id) {
-        return db.query('SELECT * FROM Worker WHERE service_id = ?', [id])
+    static findByServiceId(id, lat, lon) {
+        return db.query('SELECT * FROM Worker WHERE service_id = ? AND haversine(?, ?, latitude, longitude) < 10', [id, lat, lon]);
+    }
+
+    static findByEmail(email) {
+        return db.query('SELECT * FROM Worker WHERE email = ?', [email])
             .then(results => results[0]);
     }
 }

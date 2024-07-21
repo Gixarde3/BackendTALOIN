@@ -7,4 +7,12 @@ database.sql
 # Ignore node_modules directory
 node_modules/
 
-photos/*
+photos/*.png
+photos/*.jpg
+photos/*.jpeg
+photos/*.gif
+photos/*.bmp
+photos/*.tiff
+photos/*.webp
+photos/*.svg
+photos/*.ico

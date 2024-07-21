@@ -1,5 +1,8 @@
 // _controllers/WorkerController.js
 const models = require('../_models');
+const path = require('path');
+const bcrypt = require('bcrypt');
+
 
 class WorkerController {
     static async getAll(req, res) {
@@ -29,6 +32,9 @@ class WorkerController {
             //save into req.body the filename as prophile_photo
             req.body.profile_photo = filePath;
 
+            const password = req.body.password;
+            req.body.password = bcrypt.hashSync(password, 10);
+
             const item = await models.Worker.create(req.body);
             res.send(item);
         } catch (error) {
@@ -38,8 +44,25 @@ class WorkerController {
 
     static async getByServiceId(req, res) {
         try {
-            const item = await models.Worker.findByServiceId(req.params.id);
+            const lat = req.body.lat;
+            const lon = req.body.lon;
+            const item = await models.Worker.findByServiceId(req.params.id, lat, lon);
             res.send(item);
+        } catch (error) {
+            res.status(500).send({ error: error.message });
+        }
+    }
+
+    static async login(req, res) {
+        try {
+            const worker = await models.Worker.findByEmail(req.body.email);
+            if (!worker) {
+                return res.status(404).send({ error: 'Worker not found' });
+            }
+            if (!bcrypt.compareSync(req.body.password, worker.password)) {
+                return res.status(401).send({ error: 'Invalid password' });
+            }
+            res.send(worker);
         } catch (error) {
             res.status(500).send({ error: error.message });
         }

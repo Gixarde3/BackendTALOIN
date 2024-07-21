@@ -33,7 +33,7 @@ router.get('/photos/:filename', (req, res) => {
 router.get('/users', controllers.UserController.getUsers);
 router.get('/user/:id', controllers.UserController.getUserById);
 router.post('/create/user', controllers.UserController.create);
-router.post('/login', controllers.UserController.login);
+router.post('/login/user', controllers.UserController.login);
 
 
 router.post('/create/service', controllers.ServiceController.create);
@@ -42,5 +42,23 @@ router.get('/services', controllers.ServiceController.getAll);
 router.post('/create/worker', controllers.WorkerController.create);
 router.get('worker/:id', controllers.WorkerController.getById);
 router.get('/workers', controllers.WorkerController.getAll);
-router.get('/workers/service/:id', controllers.WorkerController.getByServiceId);
+router.post('/workers/service/:id', controllers.WorkerController.getByServiceId);
+router.post('/login/worker', controllers.WorkerController.login);
+
+
+router.post('/create/request', controllers.RequestController.create);
+router.get('/requests', controllers.RequestController.getAll);
+router.get('/request/:id', controllers.RequestController.getById);
+router.get('/requests/user/:id', controllers.RequestController.getByUserId);
+router.get('/requests/worker/:id', controllers.RequestController.getByWorkerId);
+
+router.post('/create/quotation', controllers.QuotaController.create);
+router.get('/quotations', controllers.QuotaController.getAll);
+router.get('/quotation/:id', controllers.QuotaController.getById);
+router.get('/quotations/request/:id', controllers.QuotaController.getByRequestId);
+router.get('/quotations/worker/:id', controllers.QuotaController.getByWorkerId);
+router.post('/quotation/accept/:id', controllers.QuotaController.accept);
+router.post('/quotation/reject/:id', controllers.QuotaController.reject);
+router.post('/quotation/negotiate/:id', controllers.QuotaController.negotiate);
+
 module.exports = router;

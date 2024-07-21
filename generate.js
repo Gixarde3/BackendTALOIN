@@ -88,3 +88,37 @@ fs.writeFile(path.join(__dirname, '_controllers', controllerFileName), controlle
         console.log(`Archivo de controlador creado: _controllers/${controllerFileName}`);
     }
 });
+
+// Actualizar el índice de _models
+const modelsIndexPath = path.join(__dirname, '_models', 'index.js');
+fs.readFile(modelsIndexPath, 'utf8', (err, data) => {
+    if (err) {
+        console.error('Error al leer el índice de _models:', err);
+    } else {
+        const updatedModelsIndex = data + `\nconst ${modelName} = require('./${modelFileName}');\nmodule.exports.${modelName} = ${modelName};`;
+        fs.writeFile(modelsIndexPath, updatedModelsIndex, (err) => {
+            if (err) {
+                console.error('Error al actualizar el índice de _models:', err);
+            } else {
+                console.log('Índice de _models actualizado.');
+            }
+        });
+    }
+});
+
+// Actualizar el índice de _controllers
+const controllersIndexPath = path.join(__dirname, '_controllers', 'index.js');
+fs.readFile(controllersIndexPath, 'utf8', (err, data) => {
+    if (err) {
+        console.error('Error al leer el índice de _controllers:', err);
+    } else {
+        const updatedControllersIndex = data + `\nconst ${modelName}Controller = require('./${controllerFileName}');\nmodule.exports.${modelName}Controller = ${modelName}Controller;`;
+        fs.writeFile(controllersIndexPath, updatedControllersIndex, (err) => {
+            if (err) {
+                console.error('Error al actualizar el índice de _controllers:', err);
+            } else {
+                console.log('Índice de _controllers actualizado.');
+            }
+        });
+    }
+});
