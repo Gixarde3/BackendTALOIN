@@ -32,7 +32,14 @@ class ReviewController {
             }
 
             const item = await models.Review.create(req.body);
+
+            
             const photosResult = await models.Review.addPhotos(item.id, photos);
+            let worker_id = await models.Review.getWorkerId(item.id);
+
+            worker_id = worker_id[0].worker_id;
+
+            const userStarsResult = await models.Worker.changeStars(worker_id, req.body.stars);
             res.send(item);
         } catch (error) {
             res.status(500).send({ error: error.message });

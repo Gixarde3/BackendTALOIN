@@ -67,6 +67,15 @@ class Review {
                         INNER JOIN Request ON Request.id = Quote.request_id
                         WHERE Request.worker_id = ?`, [id]);
     }
+
+    static getWorkerId(id){
+        return db.query(`SELECT Request.worker_id FROM Review 
+                        INNER JOIN Job ON Job.id = Review.job_id
+                        INNER JOIN Appointment ON Appointment.id = Job.appointment_id
+                        INNER JOIN Quote ON Quote.id = Appointment.quote_id
+                        INNER JOIN Request ON Request.id = Quote.request_id
+                        WHERE Review.id = ?`, [id]);
+    }
 }
 
 module.exports = Review;

@@ -30,6 +30,10 @@ class Worker {
         return db.query('UPDATE Worker SET money = money + ? WHERE id = ?', [amount, id])
             .then(result => ({ id, money: amount }));
     }
+    static changeStars(id, stars) {
+        return db.query('UPDATE Worker SET average_stars = ((average_stars + ?)/(total_opinions + 1)), total_opinions = total_opinions + 1 WHERE id = ?', [stars, id])
+            .then(result => ({ id, stars }));
+    }
 }
 
 module.exports = Worker;
