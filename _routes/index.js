@@ -17,4 +17,8 @@ router.get('/test', (req, res) => {
     res.send('This is a test route');
 });
 
+router.get('/users', controllers.UserController.getUsers);
+router.get('/user/:id', controllers.UserController.getUserById);
+router.post('/user', controllers.UserController.createUser);
+
 module.exports = router;
