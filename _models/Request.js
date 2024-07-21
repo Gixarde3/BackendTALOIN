@@ -25,7 +25,7 @@ class Request {
     }
 
     static addPhotos(id, photos) {
-        const promises = photos.map(photo => db.query('INSERT INTO request_photo SET ?', { request_id: id, file: photo }));
+        const promises = photos.map(photo => db.query('INSERT INTO Request_Photo SET ?', { request_id: id, file: photo }));
         return Promise.all(promises);
     }
 

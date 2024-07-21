@@ -22,7 +22,7 @@ class Review {
     }
 
     static getPhotos(id) {
-        return db.query('SELECT * FROM reviewphoto WHERE review_id = ?', [id]);
+        return db.query('SELECT * FROM ReviewPhoto WHERE review_id = ?', [id]);
     }
 
     static getByJobId(id) {
