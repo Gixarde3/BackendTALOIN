@@ -28,6 +28,10 @@ class Request {
         const promises = photos.map(photo => db.query('INSERT INTO request_photo SET ?', { request_id: id, file: photo }));
         return Promise.all(promises);
     }
+
+    static getPhotos(id) {
+        return db.query('SELECT * FROM request_photo WHERE request_id = ?', [id]);
+    }
 }
 
 module.exports = Request;

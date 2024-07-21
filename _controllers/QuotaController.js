@@ -47,6 +47,15 @@ class QuotaController {
         }
     }
 
+    static async getByUserId(req, res) {
+        try {
+            const items = await models.Quota.getByUserId(req.params.id);
+            res.send(items);
+        } catch (error) {
+            res.status(500).send({ error: error.message });
+        }
+    }
+
     static async accept(req, res) {
         try {
             const item = await models.Quota.accept(req.params.id);

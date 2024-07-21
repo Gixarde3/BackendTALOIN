@@ -21,7 +21,15 @@ class Quota {
     }
 
     static getByWorkerId(id) {
-        return db.query('SELECT * FROM Quote WHERE worker_id = ?', [id]);
+        return db.query(`SELECT * FROM Quote
+                        INNER JOIN Request ON Request.id = Quote.request_id
+                        WHERE Request.worker_id = ?`, [id]);
+    }
+
+    static getByUserId(id) {
+        return db.query(`SELECT * FROM Quote
+                        INNER JOIN Request ON Request.id = Quote.request_id
+                        WHERE Request.user_id = ?`, [id]);
     }
 
     static accept(id) {
@@ -37,6 +45,11 @@ class Quota {
     static negotiate(id, price){
         return db.query('UPDATE Quote SET initial_quote = ? WHERE id = ? AND accepted = false', [price, id])
             .then(result => (result.affectedRows === 0 ? {error: "La cotización ya había sido aceptada, o no existe la cotización"} : { id, price }));
+    }
+
+    static isAccepted(id){
+        return db.query('SELECT * FROM Quote WHERE id = ? AND accepted=true', [id])
+            .then(results => results[0]);
     }
 }
 

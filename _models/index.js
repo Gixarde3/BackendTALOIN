@@ -14,3 +14,7 @@ const Quota = require('./Quota.js');
 module.exports.Quota = Quota;
 const Appointment = require('./Appointment.js');
 module.exports.Appointment = Appointment;
+const Job = require('./Job.js');
+module.exports.Job = Job;
+const Review = require('./Review.js');
+module.exports.Review = Review;

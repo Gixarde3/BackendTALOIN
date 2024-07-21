@@ -15,6 +15,30 @@ class Appointment {
         return db.query('INSERT INTO Appointment SET ?', data)
             .then(result => ({ id: result.insertId, ...data }));
     }
+
+    static getByRequestId(id) {
+        return db.query(`SELECT * FROM Appointment 
+                        INNER JOIN Quote ON Quote.id = Appointment.id 
+                        WHERE Quote.request_id = ?`, [id]);
+    }
+
+    static getByQuoteId(id) {
+        return db.query('SELECT * FROM Appointment WHERE quote_id = ?', [id]);
+    }
+
+    static getByWorkerId(id) {
+        return db.query(`SELECT * FROM Appointment 
+                        INNER JOIN Quote ON Quote.id = Appointment.quote_id 
+                        INNER JOIN Request ON Request.id = Quote.request_id
+                        WHERE Request.worker_id = ?`, [id]);
+    }
+
+    static getByUserId(id) {
+        return db.query(`SELECT * FROM Appointment 
+                        INNER JOIN Quote ON Quote.id = Appointment.quote_id 
+                        INNER JOIN Request ON Request.id = Quote.request_id
+                        WHERE Request.user_id = ?`, [id]);
+    }
 }
 
 module.exports = Appointment;

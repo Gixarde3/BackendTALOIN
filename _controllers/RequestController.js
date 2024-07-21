@@ -14,8 +14,9 @@ class RequestController {
 
     static async getById(req, res) {
         try {
+            const photos = await models.Request.getPhotos(req.params.id);
             const item = await models.Request.findById(req.params.id);
-            res.send(item);
+            res.send({item, photos});
         } catch (error) {
             res.status(500).send({ error: error.message });
         }

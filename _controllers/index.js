@@ -13,3 +13,7 @@ const QuotaController = require('./QuotaController.js');
 module.exports.QuotaController = QuotaController;
 const AppointmentController = require('./AppointmentController.js');
 module.exports.AppointmentController = AppointmentController;
+const JobController = require('./JobController.js');
+module.exports.JobController = JobController;
+const ReviewController = require('./ReviewController.js');
+module.exports.ReviewController = ReviewController;
