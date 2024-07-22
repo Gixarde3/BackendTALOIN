@@ -29,7 +29,7 @@ class RequestController {
             const files = req.files;
             const photos = [];
             for (const file in files['photos']) {
-                const filePath = path.join('photos', files['photos'][file].path.split('\\').pop());
+                const filePath = path.join('photos', files['photos'][file].path.split('/').pop());
                 photos.push(filePath);
             }
 
