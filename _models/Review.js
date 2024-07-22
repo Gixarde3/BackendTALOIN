@@ -17,7 +17,7 @@ class Review {
     }
 
     static addPhotos(id, photos) {
-        const promises = photos.map(photo => db.query('INSERT INTO reviewphoto SET ?', { review_id: id, file: photo }));
+        const promises = photos.map(photo => db.query('INSERT INTO ReviewPhoto SET ?', { review_id: id, file: photo }));
         return Promise.all(promises);
     }
 

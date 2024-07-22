@@ -30,7 +30,7 @@ class Request {
     }
 
     static getPhotos(id) {
-        return db.query('SELECT * FROM request_photo WHERE request_id = ?', [id]);
+        return db.query('SELECT * FROM Request_Photo WHERE request_id = ?', [id]);
     }
 }
 
