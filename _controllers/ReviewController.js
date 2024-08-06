@@ -26,11 +26,28 @@ class ReviewController {
             // Save all the photos into /photos folder
             const files = req.files;
             const photos = [];
-            for (const file in files['photos']) {
-                const filePath = path.join('photos', files['photos'][file].path.split('/').pop());
-                photos.push(filePath);
+            if(Array.isArray(files)) {
+                for (const file in files['photos']) {
+                    let foto = files['photos'][file];
+                    
+                    let filePath = path.join('photos', foto.path.split('\\').pop());
+                    if(foto.path.split('\\').length <= 1) {
+                        filePath = path.join('photos', foto.path.split('/').pop());
+                    }
+       
+                }
+            }else{
+                if(files['photos'] !== undefined) {
+                   
+                    let foto = files['photos'];
+                    let filePath = path.join('photos', foto.path.split('\\').pop());
+                    if(foto.path.split('\\').length <= 1) {
+                        filePath = path.join('photos', foto.path.split('/').pop());
+                    }
+                    photos.push(filePath);
+                }
             }
-
+            
             const item = await models.Review.create(req.body);
 
             
@@ -49,7 +66,76 @@ class ReviewController {
     static async getByUserId(req, res) {
         try {
             const items = await models.Review.getByUserId(req.params.id);
-            res.send(items);
+
+            const photos = [];
+            for (const item of items) {
+                const photo = await models.Review.getPhotos(item.id);
+                photos.push(photo);
+            }
+
+            const jobPhotos = [];
+            for (const item of items) {
+                const photo = await models.Job.getPhotos(item.job_id);
+                jobPhotos.push(photo);
+            }
+
+            const descriptions = [];
+            for (const item of items) {
+                const description = await models.Request.getDescription(item.request_id);
+                descriptions.push(description);
+            }
+
+            const RequestPhotos = []
+            for (const item of items) {
+                const photo = await models.Request.getPhotos(item.request_id);
+                RequestPhotos.push(photo);
+            }
+
+            const names = [];
+
+            for (const item of items) {
+                const name = await models.Worker.getName(item.worker_id);
+                names.push(name);
+            }
+
+            const lastnames = [];
+
+            for (const item of items) {
+                const lastname = await models.Worker.getLastName(item.worker_id);
+                lastnames.push(lastname);
+            }
+
+        
+            const appointmens = [];
+            for (const item of items) {
+                const appointment = await models.Appointment.getByQuoteId(item.quote_id);
+                appointmens.push(appointment);
+            }
+
+            const locations = [];
+            for(const item of items) {
+                const location = await models.Worker.getLocation(item.worker_id);
+                locations.push(location);
+            }
+
+            const prophile_photos = [];
+            for(const item of items) {
+                const prohile_photo = await models.Worker.getProfilePhoto(item.worker_id);
+                prophile_photos.push(prohile_photo);
+            }
+
+            const moneys = [];
+            for(const item of items) {
+                const money = await models.Quota.getMoney(item.quote_id);
+                moneys.push(money);
+            }
+
+            const results = [];
+            items.forEach((item, index) => {
+                results.push({...item, reviewPhotos: photos[index], photos: jobPhotos[index], ...moneys[index], request: {worker: {...names[index], ...lastnames[index],...locations[index], ...prophile_photos[index]}, photos: RequestPhotos[index], ...descriptions[index]}});
+            });
+
+            res.send(results);
         } catch (error) {
             res.status(500).send({ error: error.message });
         }
@@ -58,7 +144,81 @@ class ReviewController {
     static async getByWorkerId(req, res) {
         try {
             const items = await models.Review.getByWorkerId(req.params.id);
-            res.send(items);
+            
+            const photos = [];
+            for (const item of items) {
+                const photo = await models.Review.getPhotos(item.id);
+                photos.push(photo);
+            }
+
+            const jobPhotos = [];
+            for (const item of items) {
+                const photo = await models.Job.getPhotos(item.job_id);
+                jobPhotos.push(photo);
+            }
+
+            const RequestPhotos = []
+            for (const item of items) {
+                const photo = await models.Request.getPhotos(item.request_id);
+                RequestPhotos.push(photo);
+            }
+
+            const descriptions = [];
+            for (const item of items) {
+                const description = await models.Request.getDescription(item.request_id);
+                descriptions.push(description);
+            }
+
+            const names = [];
+            for (const item of items) {
+                const name = await models.User.getName(item.user_id);
+                names.push(name);
+            }
+
+            const lastnames = [];
+            for (const item of items) {
+                const lastname = await models.User.getLastName(item.user_id);
+                lastnames.push(lastname);
+            }
+
+            const addresses = [];
+
+            for(const item of items) {
+                const address = await models.User.getAddress(item.user_id);
+                addresses.push(address);
+            }
+
+            const appointmens = [];
+            for (const item of items) {
+                const appointment = await models.Appointment.getByQuoteId(item.id);
+                appointmens.push(appointment);
+            }
+
+            const locations = [];
+            for(const item of items) {
+                const location = await models.User.getLocation(item.user_id);
+                locations.push(location);
+            }
+
+            const prophile_photos = [];
+
+            for(const item of items) {
+                const prohile_photo = await models.User.getProfilePhoto(item.user_id);
+                prophile_photos.push(prohile_photo);
+            }
+
+            const moneys = [];
+            for(const item of items) {
+                const money = await models.Quota.getMoney(item.quote_id);
+                moneys.push(money);
+            }
+
+            const results = [];
+            items.forEach((item, index) => {
+                results.push({...item, reviewPhotos: photos[index], photos: jobPhotos[index], ...moneys[index], request: {user: {...names[index], ...lastnames[index],...locations[index], ...prophile_photos[index], ...addresses[index]}, photos: RequestPhotos[index], ...descriptions[index]}});
+            });
+
+            res.send(results);
         } catch (error) {
             res.status(500).send({ error: error.message });
         }

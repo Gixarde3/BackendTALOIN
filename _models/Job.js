@@ -34,18 +34,18 @@ class Job {
     }
 
     static getByWorkerId(id) {
-        return db.query(`SELECT Job.* FROM Job
+        return db.query(`SELECT Job.*, Quote.request_id, Appointment.date, Appointment.quote_id, Request.user_id, Request.worker_id FROM Job
                         INNER JOIN Appointment ON Appointment.id = Job.appointment_id
                         INNER JOIN Quote ON Quote.id = Appointment.quote_id
-                        INNER JOIN Request ON Request.id = Appointment.request_id
+                        INNER JOIN Request ON Request.id = Quote.request_id
                         WHERE Request.worker_id = ?`, [id]);
     }
 
     static getByUserId(id) {
-        return db.query(`SELECT Job.* FROM Job
+        return db.query(`SELECT Job.*, Quote.request_id, Appointment.date, Appointment.quote_id, Request.user_id, Request.worker_id FROM Job
                         INNER JOIN Appointment ON Appointment.id = Job.appointment_id
                         INNER JOIN Quote ON Quote.id = Appointment.quote_id
-                        INNER JOIN Request ON Request.id = Appointment.request_id
+                        INNER JOIN Request ON Request.id = Quote.request_id
                         WHERE Request.user_id = ?`, [id]);
     }
 

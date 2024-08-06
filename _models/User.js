@@ -25,6 +25,31 @@ class User {
         return db.query('SELECT * FROM User WHERE email = ?', [email])
             .then(results => results[0]);
     }
+
+    static getName(id) {
+        return db.query('SELECT name FROM User WHERE id = ?', [id])
+            .then(results => results[0]);
+    }
+
+    static getLastName(id) {
+        return db.query('SELECT lastname FROM User WHERE id = ?', [id])
+            .then(results => results[0]);
+    }
+
+    static getAddress(id) {
+        return db.query('SELECT address FROM User WHERE id = ?', [id])
+            .then(results => results[0]);
+    }
+
+    static getLocation(id) {
+        return db.query('SELECT latitude, longitude FROM User WHERE id = ?', [id])
+            .then(results => results[0]);
+    }
+
+    static getProfilePhoto(id) {
+        return db.query('SELECT profile_photo FROM User WHERE id = ?', [id])
+            .then(results => results[0]);
+    }
 }
 
 module.exports = User;

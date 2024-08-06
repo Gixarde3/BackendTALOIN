@@ -32,6 +32,11 @@ class Request {
     static getPhotos(id) {
         return db.query('SELECT * FROM Request_Photo WHERE request_id = ?', [id]);
     }
+
+    static getDescription(id) {
+        return db.query('SELECT description FROM Request WHERE id = ?', [id])
+            .then(results => results[0]);
+    }
 }
 
 module.exports = Request;

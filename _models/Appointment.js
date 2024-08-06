@@ -27,14 +27,14 @@ class Appointment {
     }
 
     static getByWorkerId(id) {
-        return db.query(`SELECT * FROM Appointment 
+        return db.query(`SELECT Appointment.*, Request.description, Request.worker_id, Request.user_id, Quote.request_id FROM Appointment 
                         INNER JOIN Quote ON Quote.id = Appointment.quote_id 
                         INNER JOIN Request ON Request.id = Quote.request_id
                         WHERE Request.worker_id = ?`, [id]);
     }
 
     static getByUserId(id) {
-        return db.query(`SELECT * FROM Appointment 
+        return db.query(`SELECT Appointment.*, Request.description, Request.worker_id, Request.user_id, Quote.request_id  FROM Appointment 
                         INNER JOIN Quote ON Quote.id = Appointment.quote_id 
                         INNER JOIN Request ON Request.id = Quote.request_id
                         WHERE Request.user_id = ?`, [id]);

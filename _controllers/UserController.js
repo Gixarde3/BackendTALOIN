@@ -28,7 +28,11 @@ class UserController {
             const password = req.body.password;
             //Save the prophile_photo into /photos folder
             const file = req.files.prophile_photo;
-            const filePath = path.join('photos', file.path.split('/').pop());
+            const filePath = path.join('photos', file.path.split('\\').pop());
+
+            if(filePath.path.split('\\').length <= 1) {
+                filePath = path.join('photos', file.path.split('/').pop());
+            }
 
             //save into req.body the filename as prophile_photo
             req.body.profile_photo = filePath;

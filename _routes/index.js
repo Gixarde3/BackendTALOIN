@@ -40,7 +40,7 @@ router.post('/create/service', controllers.ServiceController.create);
 router.get('/services', controllers.ServiceController.getAll);
 
 router.post('/create/worker', controllers.WorkerController.create);
-router.get('worker/:id', controllers.WorkerController.getById);
+router.get('/worker/:id', controllers.WorkerController.getById);
 router.get('/workers', controllers.WorkerController.getAll);
 router.post('/workers/service/:id', controllers.WorkerController.getByServiceId);
 router.post('/login/worker', controllers.WorkerController.login);
@@ -62,6 +62,7 @@ router.post('/quotation/reject/:id', controllers.QuotaController.reject);
 router.post('/quotation/negotiate/:id', controllers.QuotaController.negotiate);
 router.get('/quotations/worker/:id', controllers.QuotaController.getByWorkerId);
 router.get('/quotations/user/:id', controllers.QuotaController.getByUserId);
+router.post('/quotation/acceptNegotiation/:id', controllers.QuotaController.acceptNegotiation);
 
 router.post('/create/appointment', controllers.AppointmentController.create);
 router.get('/appointments', controllers.AppointmentController.getAll);
