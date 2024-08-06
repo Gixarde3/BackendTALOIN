@@ -4,6 +4,9 @@ database.sql
 # Ignore .env
 .env
 
+#Ignore fly.toml
+fly.toml
+
 # Ignore node_modules directory
 node_modules/
 
